@@ -18,5 +18,5 @@
 #include <stdint.h>
 
 void spiInit();
-void spitSendChar(uint8_t);
+void spiSendChar(uint8_t);
 uint8_t spiReceiveChar();

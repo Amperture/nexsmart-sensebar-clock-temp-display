@@ -49,7 +49,6 @@ void spiInit(){
     //UCCKPH    - Phase Select, 0 = change -> capture
     //UCCKPL    - Polarity Select, 0 = rising edge
     //UC7BIT    - data length, 0 = 8-bit data
-    //UCMode
     UCB0CTL0 &= ~(UCCKPL | UC7BIT | UCMODE0 | UCMODE1);
 
     //UCMSB     - Most Significant Bit first
@@ -62,10 +61,10 @@ void spiInit(){
     // Baud Rate 4,000,000, SMCLK 
     UCB0BR0=0x00; UCB0BR1=0x00;
 
-    UCB0CTL1 &= ~UCSWRST;
+    UCB0CTL1    &=      ~UCSWRST;
 
-    P1SEL       |= BIT6 | BIT7 | BIT5;
-    P1SEL2      |= BIT6 | BIT7 | BIT5; 
+    P1SEL       |=      BIT6 | BIT7 | BIT5;
+    P1SEL2      |=      BIT6 | BIT7 | BIT5; 
 }
 
 void spiSendChar(uint8_t send){

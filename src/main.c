@@ -31,25 +31,34 @@
 #define SEVEN_SEG_7 BIT0 + BIT1 + BIT2
 #define SEVEN_SEG_8 0xFF
 #define SEVEN_SEG_9 BIT0 + BIT5 + BIT6 + BIT1 + BIT2
+#define ONE_HUNDRED_DEGREES BIT7
 
 /* Defines for bytes to send to 7-Segment Shift Registers */
-#define NUM_SHIFT_REGISTERS 6
-#define TEMPERATURE_TENS 0
-#define TEMPERATURE_ONES 1 
-#define HOUR_TENS 2
-#define HOUR_ONES 3
-#define MINUTE_TENS 4
-#define MINUTE_ONES 5
+#define NUM_SHIFT_REGISTERS 8
+#define TEMPERATURE_OUTSIDE_TENS 0
+#define TEMPERATURE_OUTSIDE_ONES 1 
+#define TEMPERATURE_INSIDE_TENS 2
+#define TEMPERATURE_INSIDE_ONES 3
+#define HOUR_TENS 4
+#define HOUR_ONES 5
+#define MINUTE_TENS 6
+#define MINUTE_ONES 7
 
 /* Encoding for the 7-Segment Data 
  *
  *              0   1   2   3   4   5   6   7   8   9
  *
- *      TEMPERATURE:
+ *      TEMPERATURE OUTSIDE:
  *          Tens:
  *              a   b   c   d   e   f   g   h   i   j
  *          Ones:
  *              A   B   C   D   E   F   G   H   I   J
+ *
+ *      TEMPERATURE INSIDE:
+ *          Tens:
+ *              ,   .   /   ;   '   [   ]   \   -   =
+ *          Ones:
+ *              <   >   ?   :   "   {   }   |   _   +
  *
  *      HOURS:
  *          Tens:
@@ -62,6 +71,8 @@
  *              0   1   2   3   4   5   6   7   8   9 
  *          Ones:
  *              )   !   @   #   $   %   ^   &   *   (
+ *
+ *
  */
 
 /*
@@ -97,7 +108,7 @@ int main(void){
     //      3 -- Time Hour Ones
     //      4 -- Time Minute Tens
     //      5 -- Time Minute Ones
-    uint8_t sendBytes[6];
+    uint8_t sendBytes[NUM_SHIFT_REGISTERS];
 
     // Set up 1MHz Clock
     BCSCTL1 = CALBC1_1MHZ;
@@ -116,87 +127,92 @@ int main(void){
         //
         switch(rxChar){
 
-            //Commands for the tens digit of temperature.
+            //Commands for the tens digit of outside temperature.
             case 'a':
-                sendBytes[TEMPERATURE_TENS] = SEVEN_SEG_0;
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_0;
                 rxChar = 0;
                 break;
             case 'b':
-                sendBytes[TEMPERATURE_TENS] = SEVEN_SEG_1;
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_1;
                 rxChar = 0;
                 break;
             case 'c':
-                sendBytes[TEMPERATURE_TENS] = SEVEN_SEG_2;
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_2;
                 rxChar = 0;
                 break;
             case 'd':
-                sendBytes[TEMPERATURE_TENS] = SEVEN_SEG_3;
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_3;
                 rxChar = 0;
                 break;
             case 'e':
-                sendBytes[TEMPERATURE_TENS] = SEVEN_SEG_4;
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_4;
                 rxChar = 0;
                 break;
             case 'f':
-                sendBytes[TEMPERATURE_TENS] = SEVEN_SEG_5;
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_5;
                 rxChar = 0;
                 break;
             case 'g':
-                sendBytes[TEMPERATURE_TENS] = SEVEN_SEG_6;
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_6;
                 rxChar = 0;
                 break;
             case 'h':
-                sendBytes[TEMPERATURE_TENS] = SEVEN_SEG_7;
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_7;
                 rxChar = 0;
                 break;
             case 'i':
-                sendBytes[TEMPERATURE_TENS] = SEVEN_SEG_8;
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_8;
                 rxChar = 0;
                 break;
             case 'j':
-                sendBytes[TEMPERATURE_TENS] = SEVEN_SEG_9;
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_9;
+                rxChar = 0;
+                break;
+            case '`':
+                sendBytes[TEMPERATURE_OUTSIDE_TENS] = SEVEN_SEG_0
+                    + ONE_HUNDRED_DEGREES;
                 rxChar = 0;
                 break;
 
-            //Commands for the ones digit of temperature.
+            //Commands for the ones digit of outside temperature.
             case 'A':
-                sendBytes[TEMPERATURE_ONES] = SEVEN_SEG_0;
+                sendBytes[TEMPERATURE_OUTSIDE_ONES] = SEVEN_SEG_0;
                 rxChar = 0;
                 break;
             case 'B':
-                sendBytes[TEMPERATURE_ONES] = SEVEN_SEG_1;
+                sendBytes[TEMPERATURE_OUTSIDE_ONES] = SEVEN_SEG_1;
                 rxChar = 0;
                 break;
             case 'C':
-                sendBytes[TEMPERATURE_ONES] = SEVEN_SEG_2;
+                sendBytes[TEMPERATURE_OUTSIDE_ONES] = SEVEN_SEG_2;
                 rxChar = 0;
                 break;
             case 'D':
-                sendBytes[TEMPERATURE_ONES] = SEVEN_SEG_3;
+                sendBytes[TEMPERATURE_OUTSIDE_ONES] = SEVEN_SEG_3;
                 rxChar = 0;
                 break;
             case 'E':
-                sendBytes[TEMPERATURE_ONES] = SEVEN_SEG_4;
+                sendBytes[TEMPERATURE_OUTSIDE_ONES] = SEVEN_SEG_4;
                 rxChar = 0;
                 break;
             case 'F':
-                sendBytes[TEMPERATURE_ONES] = SEVEN_SEG_5;
+                sendBytes[TEMPERATURE_OUTSIDE_ONES] = SEVEN_SEG_5;
                 rxChar = 0;
                 break;
             case 'G':
-                sendBytes[TEMPERATURE_ONES] = SEVEN_SEG_6;
+                sendBytes[TEMPERATURE_OUTSIDE_ONES] = SEVEN_SEG_6;
                 rxChar = 0;
                 break;
             case 'H':
-                sendBytes[TEMPERATURE_ONES] = SEVEN_SEG_7;
+                sendBytes[TEMPERATURE_OUTSIDE_ONES] = SEVEN_SEG_7;
                 rxChar = 0;
                 break;
             case 'I':
-                sendBytes[TEMPERATURE_ONES] = SEVEN_SEG_8;
+                sendBytes[TEMPERATURE_OUTSIDE_ONES] = SEVEN_SEG_8;
                 rxChar = 0;
                 break;
             case 'J':
-                sendBytes[TEMPERATURE_ONES] = SEVEN_SEG_9;
+                sendBytes[TEMPERATURE_OUTSIDE_ONES] = SEVEN_SEG_9;
                 rxChar = 0;
                 break;
 
@@ -326,7 +342,6 @@ int main(void){
                 rxChar = 0;
                 break;
 
-             
             // Commands for the Ones Digit of the Minute
             case ')':
                 sendBytes[MINUTE_ONES] = SEVEN_SEG_0;
@@ -368,8 +383,94 @@ int main(void){
                 sendBytes[MINUTE_ONES] = SEVEN_SEG_9;
                 rxChar = 0;
                 break;
+
+            // Commands for the Tens Digit of the Inside Temperature
+            case ',':
+                sendBytes[TEMPERATURE_INSIDE_TENS] = SEVEN_SEG_0;
+                rxChar = 0;
+                break;
+            case '.':
+                sendBytes[TEMPERATURE_INSIDE_TENS] = SEVEN_SEG_1;
+                rxChar = 0;
+                break;
+            case '/':
+                sendBytes[TEMPERATURE_INSIDE_TENS] = SEVEN_SEG_2;
+                rxChar = 0;
+                break;
+            case ';':
+                sendBytes[TEMPERATURE_INSIDE_TENS] = SEVEN_SEG_3;
+                rxChar = 0;
+                break;
+            case '\'':
+                sendBytes[TEMPERATURE_INSIDE_TENS] = SEVEN_SEG_4;
+                rxChar = 0;
+                break;
+            case '[':
+                sendBytes[TEMPERATURE_INSIDE_TENS] = SEVEN_SEG_5;
+                rxChar = 0;
+                break;
+            case ']':
+                sendBytes[TEMPERATURE_INSIDE_TENS] = SEVEN_SEG_6;
+                rxChar = 0;
+                break;
+            case '\\':
+                sendBytes[TEMPERATURE_INSIDE_TENS] = SEVEN_SEG_7;
+                rxChar = 0;
+                break;
+            case '-':
+                sendBytes[TEMPERATURE_INSIDE_TENS] = SEVEN_SEG_8;
+                rxChar = 0;
+                break;
+            case '=':
+                sendBytes[TEMPERATURE_INSIDE_TENS] = SEVEN_SEG_9;
+                rxChar = 0;
+                break;
+
+            // Commands for the Ones Digit of the Inside Temperature
+            case '<':
+                sendBytes[TEMPERATURE_INSIDE_ONES] = SEVEN_SEG_0;
+                rxChar = 0;
+                break;
+            case '>':
+                sendBytes[TEMPERATURE_INSIDE_ONES] = SEVEN_SEG_1;
+                rxChar = 0;
+                break;
+            case '?':
+                sendBytes[TEMPERATURE_INSIDE_ONES] = SEVEN_SEG_2;
+                rxChar = 0;
+                break;
+            case ':':
+                sendBytes[TEMPERATURE_INSIDE_ONES] = SEVEN_SEG_3;
+                rxChar = 0;
+                break;
+            case '\"':
+                sendBytes[TEMPERATURE_INSIDE_ONES] = SEVEN_SEG_4;
+                rxChar = 0;
+                break;
+            case '{':
+                sendBytes[TEMPERATURE_INSIDE_ONES] = SEVEN_SEG_5;
+                rxChar = 0;
+                break;
+            case '}':
+                sendBytes[TEMPERATURE_INSIDE_ONES] = SEVEN_SEG_6;
+                rxChar = 0;
+                break;
+            case '|':
+                sendBytes[TEMPERATURE_INSIDE_ONES] = SEVEN_SEG_7;
+                rxChar = 0;
+                break;
+            case '_':
+                sendBytes[TEMPERATURE_INSIDE_ONES] = SEVEN_SEG_8;
+                rxChar = 0;
+                break;
+            case '+':
+                sendBytes[TEMPERATURE_INSIDE_ONES] = SEVEN_SEG_9;
+                rxChar = 0;
+                break;
+
         }
         for(i = 0; i < NUM_SHIFT_REGISTERS; i++){
+            //spiSendChar(0x0F);
             spiSendChar(sendBytes[i]);
         }
         latch595();

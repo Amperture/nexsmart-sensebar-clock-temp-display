@@ -12,7 +12,7 @@ TARGET = main
 # MCU: part number to build for
 MCU = msp430g2553
 # SOURCES: list of input source sources
-SOURCES = main.c uart.c spi.c
+SOURCES = uart.c spi.c main.c 
 # INCLUDES: list of includes, by default, use Includes directory
 INCLUDES = -Iinc
 # OUTDIR: directory to use for output
